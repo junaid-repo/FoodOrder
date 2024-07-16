@@ -1,0 +1,15 @@
+server:
+  port: 9006
+  
+spring:
+  application:
+    name: RESTURANTS-SERVICE
+  config:
+    import: "optional:configserver:http://localhost:9003"
+
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka

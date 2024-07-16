@@ -1,0 +1,9 @@
+server:
+  port: 9006
+  
+spring:
+  application:
+    name: resturant-service
+  config:
+    import: optional:configserver:http://localhost:9003
+

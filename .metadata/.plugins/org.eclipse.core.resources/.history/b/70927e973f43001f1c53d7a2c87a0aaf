@@ -1,0 +1,16 @@
+server:
+  port: 9003
+ 
+
+
+spring:
+  profiles:
+    active: native
+  application:
+    name: CLOUD-GATEWAY	
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
