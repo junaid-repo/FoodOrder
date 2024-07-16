@@ -1,0 +1,33 @@
+package com.food.resturants.controller;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.food.resturants.entities.ResturantsDetails;
+import com.food.resturants.service.RService;
+
+import jakarta.validation.Valid;
+
+@RestController
+@RequestMapping("/resturant")
+public class RController {
+
+	@Autowired
+	RService serv;
+
+	@PostMapping("/register")
+	ResponseEntity<Map<String, Object>> registerResturants(@Valid @RequestBody ResturantsDetails request) {
+		Map<String, Object> response = new HashMap<>();
+		response = serv.registerResturants(request);
+		return ResponseEntity.status(HttpStatus.CREATED).body(response);
+	}
+
+}
