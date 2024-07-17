@@ -9,15 +9,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.food.resturants.entities.Address;
+import com.food.resturants.entities.ResturantMenu;
+import com.food.resturants.entities.ResturantProfile;
 import com.food.resturants.entities.ResturantsDetails;
+import com.food.resturants.repo.ResturantMenuRepository;
+import com.food.resturants.repo.ResturantProfileRepository;
 import com.food.resturants.repo.ResturantRepository;
 import com.food.resturants.utility.Utility;
+
+import jakarta.validation.Valid;
 
 @Service
 public class RService {
 
 	@Autowired
 	ResturantRepository rrepo;
+
+	@Autowired
+	ResturantProfileRepository rprepo;
+	
+	@Autowired
+	ResturantMenuRepository rmrepo;
 
 	public Map<String, Object> registerResturants(ResturantsDetails request) {
 		Map<String, Object> retMap = new HashMap<>();
@@ -39,7 +51,7 @@ public class RService {
 		ResturantsDetails res = rrepo.save(request);
 
 		String resName = "RES004" + String.valueOf(res.getId());
-		
+
 		try {
 			rrepo.updateResturantCode(res.getId(), resName);
 		} catch (Exception e) {
@@ -51,6 +63,24 @@ public class RService {
 		retMap.put("status", "Success");
 
 		return retMap;
+	}
+
+	public String addResturantProfile(ResturantProfile request) {
+		ResturantProfile response = new ResturantProfile();
+		response = rprepo.save(request);
+		if (response.getId()!= null) {
+			return "Details Added";
+		}
+		return null;
+	}
+
+	public String addMenuItems(ResturantMenu request) {
+		ResturantMenu response= new ResturantMenu();
+		response = rmrepo.save(request);
+		if (response.getId() != null) {
+			return "Details Added";
+		}
+		return null;
 	}
 
 }

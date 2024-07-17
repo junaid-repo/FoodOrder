@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.food.resturants.entities.ResturantMenu;
+import com.food.resturants.entities.ResturantProfile;
 import com.food.resturants.entities.ResturantsDetails;
 import com.food.resturants.service.RService;
 
@@ -27,6 +29,21 @@ public class RController {
 	ResponseEntity<Map<String, Object>> registerResturants(@Valid @RequestBody ResturantsDetails request) {
 		Map<String, Object> response = new HashMap<>();
 		response = serv.registerResturants(request);
+		return ResponseEntity.status(HttpStatus.CREATED).body(response);
+	}
+	@PostMapping("/add/profile")
+	ResponseEntity<String>  addProfile(@Valid @RequestBody ResturantProfile request){
+		
+		String response=serv.addResturantProfile(request);
+		
+		return ResponseEntity.status(HttpStatus.CREATED).body(response);
+	}
+	
+	@PostMapping("/add/menuItems")
+	ResponseEntity<String>  addMenuItmes(@Valid @RequestBody ResturantMenu request){
+		
+		String response=serv.addMenuItems(request);
+		
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}
 
