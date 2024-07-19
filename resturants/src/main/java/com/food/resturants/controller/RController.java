@@ -1,6 +1,8 @@
 package com.food.resturants.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +47,15 @@ public class RController {
 		String response=serv.addMenuItems(request);
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);
+	}
+	@PostMapping("/bulk/register")
+	ResponseEntity<List<String>> bulkRegisterResturants(@RequestBody Map<String, String> filesLocations) throws IOException{
+		
+		List<String> idList=serv.saveBulkResurants(filesLocations);
+		
+	
+		return ResponseEntity.status(HttpStatus.CREATED).body(idList);
+		
 	}
 
 }

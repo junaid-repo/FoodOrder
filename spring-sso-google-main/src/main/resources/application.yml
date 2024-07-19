@@ -1,0 +1,13 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google :
+            clientId: 389869845201-utijrhrk8msrvtdn970502uoi86qhndl.apps.googleusercontent.com
+            clientSecret: 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
+
+
+
+server:
+  port: 6004
