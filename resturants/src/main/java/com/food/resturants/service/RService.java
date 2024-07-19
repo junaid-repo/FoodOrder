@@ -99,22 +99,33 @@ public class RService {
 		Iterator<Address> addDetails = ad.iterator();
 		while (restDetails.hasNext() && addDetails.hasNext()) {
 			restDetails.next().setAddress(addDetails.next());
-			//Map<String, Object> responseMap = registerResturants(restDetails.next());
-			//response.add((String) responseMap.get("resturantCode"));
+			// Map<String, Object> responseMap = registerResturants(restDetails.next());
+			// response.add((String) responseMap.get("resturantCode"));
 		}
-		
-		for(int i=0; i<rd.size(); i++) {
+
+		for (int i = 0; i < rd.size(); i++) {
 			rd.get(i).setAddress(ad.get(i));
 		}
 		System.out.println(rd.toString());
 
-		rd.stream().forEach(obj->{
+		rd.stream().forEach(obj -> {
 			Map<String, Object> responseMap = registerResturants(obj);
 			response.add((String) responseMap.get("resturantCode"));
 		});
-			
-		
 
+		return response;
+	}
+
+	public List<String> saveBulkAddMenuItmes(Map<String, String> filesLocations) throws IOException {
+		List<String> response = new ArrayList<>();
+		String menuItemFileLocation = filesLocations.get("menuItemFile");
+		Map<String, Object> fileMap = Utility.getListOfObjectsForMenu(menuItemFileLocation);
+		List<ResturantMenu> menuDetails = (List<ResturantMenu>) fileMap.get("resturantMenuDetails");
+
+		menuDetails.stream().forEach(menu -> {
+			String menuDetailsResponse = addMenuItems(menu);
+			response.add(menuDetailsResponse);
+		});
 		return response;
 	}
 

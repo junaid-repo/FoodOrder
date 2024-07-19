@@ -1,9 +1,6 @@
 package com.food.resturants.utility;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -14,11 +11,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.food.resturants.entities.Address;
+import com.food.resturants.entities.ResturantMenu;
 import com.food.resturants.entities.ResturantsDetails;
+import com.food.resturants.entities.enums.FoodCat;
+import com.food.resturants.entities.enums.FoodType;
 
 public class Utility {
 
@@ -64,6 +62,54 @@ public class Utility {
 		retMap.put("addressDetails", ad);
 
 		return retMap;
+	}
+	public static Map<String, Object> getListOfObjectsForMenu(String rl) throws IOException {
+		List<ResturantMenu> rd = draftResurantMenuDetails(rl);
+
+		Map<String, Object> retMap = new HashMap<>();
+
+		retMap.put("resturantMenuDetails", rd);
+
+		return retMap;
+	}
+	
+	
+	public static List<ResturantMenu> draftResurantMenuDetails(String fileIn) throws IOException {
+
+		List<ResturantMenu> menuList = new ArrayList<>();
+		String line = null;
+
+		FileReader fileReader = new FileReader(fileIn);
+		BufferedReader bufferedReader = new BufferedReader(fileReader);
+		int count = 0;
+		while ((line = bufferedReader.readLine()) != null) {
+			count++;
+			if (count > 1) {
+				try {
+					String[] temp = line.split(",");
+					String resturantCode = temp[0];
+					String name = temp[1];
+					String descriptions = temp[2];
+					FoodCat category = FoodCat.valueOf(temp[3]);
+					String price = temp[4];
+					FoodType type = FoodType.valueOf(temp[5]);
+
+					var resturantMenuDetails = ResturantMenu.builder().resturantCode(resturantCode).name(name)
+							.descriptions(descriptions).category(category).price(Double.parseDouble(price)).type(type)
+							.build();
+					;
+					menuList.add(resturantMenuDetails);
+
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+
+				}
+			}
+
+		}
+		bufferedReader.close();
+		return menuList;
+
 	}
 
 	public static List<ResturantsDetails> draftResurantDetails(String fileIn) throws IOException {

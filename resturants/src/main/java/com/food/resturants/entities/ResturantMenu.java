@@ -30,8 +30,8 @@ public class ResturantMenu {
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
-	@NotNull(message = "resturantId cannot be blank")
-	private Integer resturant_id;
+	@NotNull(message = "resturantCode cannot be blank")
+	private String resturantCode;
 	
 	@NotBlank(message = "name cannot be blank")
 	private String name;

@@ -33,29 +33,40 @@ public class RController {
 		response = serv.registerResturants(request);
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}
+
 	@PostMapping("/add/profile")
-	ResponseEntity<String>  addProfile(@Valid @RequestBody ResturantProfile request){
-		
-		String response=serv.addResturantProfile(request);
-		
+	ResponseEntity<String> addProfile(@Valid @RequestBody ResturantProfile request) {
+
+		String response = serv.addResturantProfile(request);
+
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}
-	
+
 	@PostMapping("/add/menuItems")
-	ResponseEntity<String>  addMenuItmes(@Valid @RequestBody ResturantMenu request){
-		
-		String response=serv.addMenuItems(request);
-		
+	ResponseEntity<String> addMenuItmes(@Valid @RequestBody ResturantMenu request) {
+
+		String response = serv.addMenuItems(request);
+
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}
+
 	@PostMapping("/bulk/register")
-	ResponseEntity<List<String>> bulkRegisterResturants(@RequestBody Map<String, String> filesLocations) throws IOException{
-		
-		List<String> idList=serv.saveBulkResurants(filesLocations);
-		
-	
+	ResponseEntity<List<String>> bulkRegisterResturants(@RequestBody Map<String, String> filesLocations)
+			throws IOException {
+
+		List<String> idList = serv.saveBulkResurants(filesLocations);
+
 		return ResponseEntity.status(HttpStatus.CREATED).body(idList);
-		
+
+	}
+
+	@PostMapping("/bulk/add/menuItems")
+	ResponseEntity<List<String>> addMenuItmes(@RequestBody Map<String, String> filesLocations) throws IOException {
+
+		List<String> idList = serv.saveBulkAddMenuItmes(filesLocations);
+
+		return ResponseEntity.status(HttpStatus.CREATED).body(idList);
+
 	}
 
 }
