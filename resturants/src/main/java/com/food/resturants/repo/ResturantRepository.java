@@ -15,4 +15,7 @@ public interface ResturantRepository extends JpaRepository<ResturantsDetails, In
 	@Query(value="update resturants_details set resturant_code=?2 where id=?1", nativeQuery=true)
 	void updateResturantCode(Integer id, String resName);
 
+	@Query(value="select * from resturants_details rd where rd.resturant_code=?1", nativeQuery=true)
+	ResturantsDetails findByResturantCode(String resturantCode);
+
 }

@@ -11,6 +11,10 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.food.resturants.dto.AddressDTO;
+import com.food.resturants.dto.ResturantDetailsDTO;
+import com.food.resturants.dto.ResturantFullDetails;
+import com.food.resturants.dto.ResturantMenuDTO;
 import com.food.resturants.entities.Address;
 import com.food.resturants.entities.ResturantMenu;
 import com.food.resturants.entities.ResturantProfile;
@@ -127,6 +131,36 @@ public class RService {
 			response.add(menuDetailsResponse);
 		});
 		return response;
+	}
+
+	public ResturantFullDetails getResturantFullDetails(String resturantCode) {
+
+		//ResturantFullDetails restFullDetails = new ResturantFullDetails();
+
+		ResturantsDetails resturantDetails = rrepo.findByResturantCode(resturantCode);
+		List<ResturantMenu> menuList = rmrepo.findByResturantCode(resturantCode);
+
+		var resturantDetailsDTO = ResturantDetailsDTO.builder().resturantCode(resturantDetails.getResturantCode())
+				.name(resturantDetails.getName()).gstNumber(resturantDetails.getGstNumber())
+				.contactNumber(resturantDetails.getContactNumber())
+				.address(AddressDTO.builder().area(resturantDetails.getAddress().getArea())
+						.city(resturantDetails.getAddress().getCity()).state(resturantDetails.getAddress().getState())
+						.pincode(resturantDetails.getAddress().getPincode()).build())
+				.build();
+		List<ResturantMenuDTO> resturantMenuList= new ArrayList<>();
+		menuList.stream().forEach(obj->{
+			
+			var rmd= ResturantMenuDTO.builder().name(obj.getName())
+					.category(obj.getCategory().toString())
+					.descriptions(obj.getDescriptions())
+					.type(obj.getType().toString())
+					.price(obj.getPrice()).build();
+			resturantMenuList.add(rmd);
+		});
+
+		var restFullDetails= ResturantFullDetails.builder().resturantDetails(resturantDetailsDTO).resturantMenuList(resturantMenuList).build();
+
+		return restFullDetails;
 	}
 
 }
