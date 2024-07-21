@@ -135,7 +135,7 @@ public class RService {
 
 	public ResturantFullDetails getResturantFullDetails(String resturantCode) {
 
-		//ResturantFullDetails restFullDetails = new ResturantFullDetails();
+		// ResturantFullDetails restFullDetails = new ResturantFullDetails();
 
 		ResturantsDetails resturantDetails = rrepo.findByResturantCode(resturantCode);
 		List<ResturantMenu> menuList = rmrepo.findByResturantCode(resturantCode);
@@ -147,20 +147,66 @@ public class RService {
 						.city(resturantDetails.getAddress().getCity()).state(resturantDetails.getAddress().getState())
 						.pincode(resturantDetails.getAddress().getPincode()).build())
 				.build();
-		List<ResturantMenuDTO> resturantMenuList= new ArrayList<>();
-		menuList.stream().forEach(obj->{
-			
-			var rmd= ResturantMenuDTO.builder().name(obj.getName())
-					.category(obj.getCategory().toString())
-					.descriptions(obj.getDescriptions())
-					.type(obj.getType().toString())
-					.price(obj.getPrice()).build();
+		List<ResturantMenuDTO> resturantMenuList = new ArrayList<>();
+		menuList.stream().forEach(obj -> {
+
+			var rmd = ResturantMenuDTO.builder().name(obj.getName()).category(obj.getCategory().toString())
+					.descriptions(obj.getDescriptions()).type(obj.getType().toString()).price(obj.getPrice()).build();
 			resturantMenuList.add(rmd);
 		});
 
-		var restFullDetails= ResturantFullDetails.builder().resturantDetails(resturantDetailsDTO).resturantMenuList(resturantMenuList).build();
+		var restFullDetails = ResturantFullDetails.builder().resturantDetails(resturantDetailsDTO)
+				.resturantMenuList(resturantMenuList).build();
 
 		return restFullDetails;
+	}
+
+	public List<ResturantFullDetails> getResturantDetailsList(String pincode/* , String category, String type */) {
+
+		List<String> resturantCodes = rrepo.getResturantCodeAccToPincode(pincode);
+
+		List<ResturantFullDetails> responseList = new ArrayList<>();
+
+		resturantCodes.stream().forEach(restCodes -> {
+			ResturantFullDetails resturantFullDetails = getResturantFullDetails(restCodes);
+			responseList.add(resturantFullDetails);
+
+		});
+
+		return responseList;
+	}
+
+	public List<ResturantFullDetails> getResturantDetailsListOthers(String category, String type) {
+		List<String> resturantCodes = rrepo.getResturantCodeAccToCatOrType(category, type);
+
+		List<ResturantFullDetails> responseList = new ArrayList<>();
+
+		resturantCodes.stream().forEach(restCodes -> {
+			ResturantFullDetails resturantFullDetails = getResturantFullDetails(restCodes);
+			responseList.add(resturantFullDetails);
+
+		});
+
+		return responseList;
+	}
+
+	public List<ResturantFullDetails> getFoodDetailsListOthers(String category, String type) {
+
+		List<ResturantMenu> menuDetails = rmrepo.findFoodByCategoryOrType(category, type);
+
+		List<ResturantFullDetails> responseList = new ArrayList<>();
+		
+		menuDetails.stream().forEach(menu->{
+			ResturantFullDetails resturantFullDetails = getResturantFullDetails(menu.getResturantCode());
+			ResturantFullDetails rsd= new ResturantFullDetails();
+			rsd.setResturantDetails(resturantFullDetails.getResturantDetails());
+			List<ResturantMenuDTO> menuDetailResponse= List.of(ResturantMenuDTO.builder().name(menu.getName()).category(menu.getCategory().toString())
+					.descriptions(menu.getDescriptions()).type(menu.getType().toString()).price(menu.getPrice()).build());
+			rsd.setResturantMenuList(menuDetailResponse);
+			responseList.add(rsd);
+		});
+		return responseList;
+	
 	}
 
 }

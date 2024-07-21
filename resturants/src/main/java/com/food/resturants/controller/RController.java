@@ -76,9 +76,45 @@ public class RController {
 	ResponseEntity<ResturantFullDetails> getResturantDetails(@RequestParam String resturantCode) {
 		ResturantFullDetails response = new ResturantFullDetails();
 
-		 response = serv.getResturantFullDetails(resturantCode);
+		response = serv.getResturantFullDetails(resturantCode);
 
 		return ResponseEntity.status(HttpStatus.OK).body(response);
+	}
+
+	@GetMapping("/get/resturantChecksWithPincode")
+	ResponseEntity<List<ResturantFullDetails>> getResturantFilterPincode(
+			@RequestParam String pincode/*
+										 * ,
+										 * 
+										 * @RequestParam String category, @RequestParam String type
+										 */) {
+
+		List<ResturantFullDetails> resturantDetailsList = serv.getResturantDetailsList(pincode/* , category, type */);
+
+		return ResponseEntity.status(HttpStatus.FOUND).body(resturantDetailsList);
+
+	}
+
+	@GetMapping("/get/resturantDetailsFilter")
+	ResponseEntity<List<ResturantFullDetails>> getResturantTypeAndCat(
+
+			@RequestParam String category, @RequestParam String type) {
+
+		List<ResturantFullDetails> resturantDetailsList = serv.getResturantDetailsListOthers(category, type);
+
+		return ResponseEntity.status(HttpStatus.FOUND).body(resturantDetailsList);
+
+	}
+
+	@GetMapping("/get/foodDetailsFilter")
+	ResponseEntity<List<ResturantFullDetails>> getfoodTypeAndCat(
+
+			@RequestParam String category, @RequestParam String type) {
+
+		List<ResturantFullDetails> resturantDetailsList = serv.getFoodDetailsListOthers(category, type);
+
+		return ResponseEntity.status(HttpStatus.FOUND).body(resturantDetailsList);
+
 	}
 
 }
