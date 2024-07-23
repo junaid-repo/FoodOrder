@@ -1,14 +1,21 @@
 spring:
- cloud:
-   gateway:
-     routes:
-       - id: resturant-service
-         uri: lb://resturant-service
-         predicates:
-           - Path=/resturant/**
+  cloud:
+    gateway:
+      routes:
+        - id: resturant-service
+          uri: lb://resturant-service
+          predicates:
+            - Path=/resturant/**
+  security:
+    oauth2:
+      client:
+        registration:
+          google :
+            clientId: 389869845201-utijrhrk8msrvtdn970502uoi86qhndl.apps.googleusercontent.com
+            clientSecret: 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
 
- application:
-   name: CLOUD-GATEWAY
+  application:
+    name: CLOUD-GATEWAY
 
 eureka:
   client:
