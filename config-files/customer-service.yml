@@ -1,0 +1,34 @@
+spring:
+  datasource: 
+    url: jdbc:mysql://localhost:3306/fo_customer
+    username: root
+    password: pass		
+  jpa:
+    hibernate:
+      ddl-auto: update
+  show-sql: true  
+  security:
+    oauth2:
+      client:
+        registration:
+          google :
+            clientId: 389869845201-utijrhrk8msrvtdn970502uoi86qhndl.apps.googleusercontent.com
+            clientSecret: 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
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost
+
+server:
+  port: 6005
+
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG
