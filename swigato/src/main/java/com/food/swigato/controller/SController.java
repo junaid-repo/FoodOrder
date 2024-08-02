@@ -40,6 +40,14 @@ public class SController {
 		return ResponseEntity.status(HttpStatus.OK).body(cartResponse);
 		
 	}
+	@PostMapping("/checkout")
+	ResponseEntity<String> doCheckout(@RequestParam String cartId, @RequestParam Double amount){
+		
+		String response=serv.doCheckout(cartId, amount);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(response);
+	}
+	
 	// Cart Summary
 
 	// Select Delivery Address

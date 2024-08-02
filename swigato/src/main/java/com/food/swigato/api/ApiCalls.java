@@ -48,5 +48,14 @@ public class ApiCalls {
 				});
 		return addressDetails.getBody();
 	}
+	public Map<String, Object> getCustomerDetails(String userCode) {
+		String uri = "http://" + "customer-service" + "/customer/view/customerDetails?userCode=";
+		String finalUri=uri+userCode;
+		System.out.println(finalUri);
+		ResponseEntity<Map<String, Object>> addressDetails = template.exchange(uri + userCode, HttpMethod.GET,
+				new HttpEntity<>(httpHeader()), new ParameterizedTypeReference<Map<String, Object>>() {
+				});
+		return addressDetails.getBody();
+	}
 
 }

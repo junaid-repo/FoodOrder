@@ -3,12 +3,16 @@ package com.food.swigato.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.food.swigato.api.ApiCalls;
+import com.food.swigato.api.EmailSender;
 import com.food.swigato.dto.AddressDTO;
 import com.food.swigato.dto.CartDTO;
 import com.food.swigato.dto.CartSummary;
@@ -18,7 +22,10 @@ import com.food.swigato.entities.BillDetails;
 import com.food.swigato.repos.CartSummaryRepository;
 import com.food.swigato.repos.FoodDetailsRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class AppService {
 
 	@Autowired
@@ -94,13 +101,45 @@ public class AppService {
 			amountCalculated = amountCalculated + (food.getCost() * Integer.parseInt(food.getCount()));
 		}
 		Double totalGst = amountCalculated * Double.parseDouble(gst) / 100d;
-		Double grandTotal=amountCalculated+totalGst+Double.parseDouble(deliveryFee)+Double.parseDouble(extraCharge)+Double.parseDouble(platformFee);
+		Double grandTotal = amountCalculated + totalGst + Double.parseDouble(deliveryFee)
+				+ Double.parseDouble(extraCharge) + Double.parseDouble(platformFee);
 
 		var billDetails = BillDetails.builder().itemTotal(amountCalculated).gstAndResturantCharges(totalGst)
 				.deliveryCharge(Double.parseDouble(deliveryFee)).extraCharges(Double.parseDouble(extraCharge))
 				.platformFee(Double.parseDouble(platformFee)).grandTotal(grandTotal).build();
 		return billDetails;
 
+	}
+
+	public String doCheckout(String cartId, Double amount) {
+
+		Map<String, Object> customerDetails = api.getCustomerDetails(cartId);
+		String emailId = (String) customerDetails.get("emailId");
+		String name = (String) customerDetails.get("name");
+		log.info("The email of the customer-->" + emailId);
+
+		CompletableFuture<String> emailResponse = sendEmailToCustomer(emailId, amount, name);
+
+		UUID uuid = UUID.randomUUID();
+		String uuidAsString = uuid.toString();
+
+		return uuidAsString;
+	}
+
+	@Async
+	private CompletableFuture<String> sendEmailToCustomer(String emailId, Double amount, String name) {
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		if (emailId.equals("na@na.com")) {
+			emailId = "junaidraza3002@gmail.com";
+		}
+		EmailSender.sendEmailForOrderConfirmations(emailId, name, amount);
+		return CompletableFuture.completedFuture("email sent successfull");
 	}
 
 }

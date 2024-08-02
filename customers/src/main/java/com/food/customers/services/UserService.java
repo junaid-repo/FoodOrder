@@ -66,4 +66,9 @@ public class UserService {
 		return carepo.findById(Integer.parseInt(id)).get();
 	}
 
+	public CustomerDetails viewCustomerDetails(String userCode) {
+		
+		return crepo.findByCustomerCode(userCode);
+	}
+
 }

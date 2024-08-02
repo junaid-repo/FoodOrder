@@ -40,6 +40,12 @@ public class CController {
 		String response = serv.addUserDetails(request);
 		return ResponseEntity.status(HttpStatus.CREATED).body("username for the created user is "+response);
 	}
+	@GetMapping("/view/customerDetails")
+	ResponseEntity<CustomerDetails> viewCustomerDetails(@RequestParam String userCode){
+		
+		CustomerDetails response = serv.viewCustomerDetails(userCode);
+		return ResponseEntity.status(HttpStatus.FOUND).body(response);
+	}
 	@PostMapping("/addDeliveryAddress")
 	ResponseEntity<String> addAddress(@Valid @RequestBody CustomerAddress request){
 		String response = serv.addAddress(request);
