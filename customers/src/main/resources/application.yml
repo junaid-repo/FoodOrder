@@ -1,29 +1,11 @@
 spring:
   application:
     name: customer-service
-  datasource: 
-    url: jdbc:mysql://localhost:3306/fo_customer
-    username: root
-    password: pass		
-  jpa:
-    hibernate:
-      ddl-auto: update
-  show-sql: true  
-  security:
-    oauth2:
-      client:
-        registration:
-          google :
-            clientId: 389869845201-utijrhrk8msrvtdn970502uoi86qhndl.apps.googleusercontent.com
-            clientSecret: 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
+  config:
+    import: optional:configserver:http://localhost:8888
 
-
-
-server:
-  port: 6004
-
-logging:
-  level:
-    org:
-      springframework:
-        web: DEBUG
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'

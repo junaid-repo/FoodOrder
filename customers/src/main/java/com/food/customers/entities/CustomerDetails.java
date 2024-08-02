@@ -1,13 +1,13 @@
 package com.food.customers.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,7 +31,8 @@ public class CustomerDetails {
 	private String name;
 	
 	@NotNull(message="Phone Number cannot be blank")
-	private Long phoneNumeber;
+	@Pattern(regexp = "^[6-9]\\d{9}$", message = "phoneNumeber is not valid")
+	private String phoneNumeber;
 	
 	@NotBlank(message="Email cannot be blank")
 	private String emailId;

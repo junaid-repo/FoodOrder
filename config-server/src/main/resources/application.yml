@@ -1,14 +1,17 @@
-server:
-  port: 9003
-  
 spring:
-  profiles:
-    active: native
+  cloud:
+    config:
+      server:
+        git:
+          skipSslValidation: true
+          clone-on-start: true
+          uri: https://github.com/junaid-repo/microservices-properties.git
   application:
-    name: CONFIG-SERVER
-eureka:
-  client:
-    fetch-registry: true
-    register-with-eureka: true
-    service-url:
-      defaultZone: http://localhost:8761/eureka
+    name: config-server
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+server:
+  port: 8888

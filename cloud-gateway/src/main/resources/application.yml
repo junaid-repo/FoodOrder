@@ -13,6 +13,16 @@ spring:
           predicates:
             - Path=/resturant/**
 
+        - id: customer-service
+          uri: lb://customer-service
+          predicates:
+            - Path=/customer/**
+
+        - id: swigato-service
+          uri: lb://swigato-service
+          predicates:
+            - Path=/swigato/**
+
 eureka:
   client:
     fetch-registry: true

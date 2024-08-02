@@ -16,9 +16,7 @@ public class Uploadtest {
 		System.out.println("##################################################################");
 		System.out.println(draftResturantAddress());
 		
-		       draftResturantAddress().stream()
-				  .map(p -> new PhoneType(p.getId(), p.getType())))
-				  .collect(Collectors.toList());
+		 
 		
 	}
 	

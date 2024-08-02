@@ -1,5 +1,5 @@
 server:
-  port: 6008
+  port: 6006
  
 spring:
   application:
@@ -21,3 +21,10 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
   instance:
     hostname: localhost
+
+charges:
+  gstPercentage: 18
+  deliveryCharge: 40
+  platformFee: 10
+  extraCharge: 0
+  

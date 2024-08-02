@@ -209,4 +209,8 @@ public class RService {
 	
 	}
 
+	public ResturantMenu getMenuDetailsById(Integer id) {
+		return rmrepo.findById(id).get();
+	}
+
 }
