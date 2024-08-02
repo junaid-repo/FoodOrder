@@ -36,6 +36,9 @@ public class AppService {
 
 	@Autowired
 	FoodDetailsRepository foodRepo;
+	
+	@Autowired
+	EmailSender emailSender;
 
 	@Value("${charges.gstPercentage}")
 	private String gst;
@@ -117,8 +120,13 @@ public class AppService {
 		String emailId = (String) customerDetails.get("emailId");
 		String name = (String) customerDetails.get("name");
 		log.info("The email of the customer-->" + emailId);
+		
 
-		CompletableFuture<String> emailResponse = sendEmailToCustomer(emailId, amount, name);
+		if (emailId.equals("na@na.com")) {
+			emailId = "junaidraza3002@gmail.com";
+		}
+		emailSender.sendEmailForOrderConfirmations(emailId, name, amount);
+		//sendEmailToCustomer(emailId, amount, name);
 
 		UUID uuid = UUID.randomUUID();
 		String uuidAsString = uuid.toString();
@@ -126,20 +134,14 @@ public class AppService {
 		return uuidAsString;
 	}
 
-	@Async
-	private CompletableFuture<String> sendEmailToCustomer(String emailId, Double amount, String name) {
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		if (emailId.equals("na@na.com")) {
-			emailId = "junaidraza3002@gmail.com";
-		}
-		EmailSender.sendEmailForOrderConfirmations(emailId, name, amount);
-		return CompletableFuture.completedFuture("email sent successfull");
-	}
+	/*
+	 * @Async("asyncTaksExe") public void sendEmailToCustomer(String emailId, Double
+	 * amount, String name) {
+	 * 
+	 * 
+	 * if (emailId.equals("na@na.com")) { emailId = "junaidraza3002@gmail.com"; }
+	 * 
+	 * //return CompletableFuture.completedFuture("email sent successfull"); }
+	 */
 
 }

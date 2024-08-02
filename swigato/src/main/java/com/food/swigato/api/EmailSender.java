@@ -1,17 +1,43 @@
 package com.food.swigato.api;
 
-import com.mailjet.client.errors.MailjetException;
-import com.mailjet.client.errors.MailjetSocketTimeoutException;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Component;
+
+import com.mailjet.client.ClientOptions;
 import com.mailjet.client.MailjetClient;
 import com.mailjet.client.MailjetRequest;
 import com.mailjet.client.MailjetResponse;
-import com.mailjet.client.ClientOptions;
+import com.mailjet.client.errors.MailjetException;
+import com.mailjet.client.errors.MailjetSocketTimeoutException;
 import com.mailjet.client.resource.Emailv31;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
+@Component
 public  class EmailSender {
-	public static void sendEmail(String emailId, String message, String name) throws MailjetException, MailjetSocketTimeoutException {
+	
+	@Async("asyncTaksExe")
+	public  void sendEmailForOrderConfirmations(String emailId, String name, Double totalAmount) {
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String message= "Hi! Mr. "+name+". Your order worth of "+String.valueOf(totalAmount)+ " is now confirmed. We are glad to serve you."; 
+		try {
+			sendEmail(emailId, message, name);
+		} catch (MailjetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MailjetSocketTimeoutException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	@Async("asyncTaksExe")
+	public  void sendEmail(String emailId, String message, String name) throws MailjetException, MailjetSocketTimeoutException {
 		MailjetClient client;
 		MailjetRequest request;
 		MailjetResponse response;
@@ -33,19 +59,5 @@ public  class EmailSender {
 		System.out.println(response.getStatus());
 		System.out.println(response.getData());
 	}
-	
-	public static void sendEmailForOrderConfirmations(String emailId, String name, Double totalAmount) {
-		
-		String message= "Hi! Mr. "+name+". Your order worth of "+String.valueOf(totalAmount)+ " is now confirmed. We are glad to serve you."; 
-		try {
-			sendEmail(emailId, message, name);
-		} catch (MailjetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (MailjetSocketTimeoutException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
+
 }
