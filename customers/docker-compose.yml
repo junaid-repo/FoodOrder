@@ -1,0 +1,30 @@
+version: '3.9'
+
+services:
+  customer:
+    container_name: customer_app
+    image: swigato/customer_app:1.0.0
+    build: .
+    ports:
+      - 7072:7072
+    environment:
+      - DATABASE_URL=jdbc:postgresql://java_db2:5432/postgres
+      - DATABASE_USERNAME=postgres
+      - DATABASE_PASSWORD=postgres
+    depends_on:
+      - java_db2
+
+  java_db2:
+    container_name: java_db2
+    image: postgres:12
+    ports:
+      - 5430:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata: {}
