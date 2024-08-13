@@ -134,14 +134,5 @@ public class AppService {
 		return uuidAsString;
 	}
 
-	/*
-	 * @Async("asyncTaksExe") public void sendEmailToCustomer(String emailId, Double
-	 * amount, String name) {
-	 * 
-	 * 
-	 * if (emailId.equals("na@na.com")) { emailId = "junaidraza3002@gmail.com"; }
-	 * 
-	 * //return CompletableFuture.completedFuture("email sent successfull"); }
-	 */
 
 }

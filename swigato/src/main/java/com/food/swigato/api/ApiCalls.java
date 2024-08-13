@@ -23,7 +23,7 @@ public class ApiCalls {
 	public Map<String, Object> getProductDetails(String id) {
 		// List<GroupMembers> memberList= new ArrayList<>();
 
-		String uri = "http://" + "resturant-service" + "/resturant/get/foodDetails/";
+		String uri = "http://" + "localhost:7070" + "/resturant/get/foodDetails/";
 		ResponseEntity<Map<String, Object>> foodDetails = template.exchange(uri + id, HttpMethod.GET,
 				new HttpEntity<>(httpHeader()), new ParameterizedTypeReference<Map<String, Object>>() {
 				});
@@ -40,7 +40,7 @@ public class ApiCalls {
 	}
 
 	public Map<String, Object> getAddress(Integer id) {
-		String uri = "http://" + "customer-service" + "/customer/view/address?id=";
+		String uri = "http://" + "host.docker.internal:7072" + "/customer/view/address?id=";
 		String finalUri=uri+id;
 		System.out.println(finalUri);
 		ResponseEntity<Map<String, Object>> addressDetails = template.exchange(uri + id, HttpMethod.GET,
@@ -49,7 +49,7 @@ public class ApiCalls {
 		return addressDetails.getBody();
 	}
 	public Map<String, Object> getCustomerDetails(String userCode) {
-		String uri = "http://" + "customer-service" + "/customer/view/customerDetails?userCode=";
+		String uri = "http://" + "host.docker.internal:7072" + "/customer/view/customerDetails?userCode=";
 		String finalUri=uri+userCode;
 		System.out.println(finalUri);
 		ResponseEntity<Map<String, Object>> addressDetails = template.exchange(uri + userCode, HttpMethod.GET,

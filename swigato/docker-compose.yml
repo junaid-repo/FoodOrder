@@ -1,0 +1,35 @@
+version: '3.9'
+
+services:
+  swigato:
+    container_name: swigato_app
+    image: swigato/swigato_app:1.0.0
+    build: .
+    ports:
+      - 7074:7074
+    environment:
+      - DATABASE_URL=jdbc:postgresql://java_db4:5428/swigato
+      - DATABASE_USERNAME=postgres
+      - DATABASE_PASSWORD=postgres
+    depends_on:
+      - java_db4
+
+  java_db4:
+    container_name: java_db4
+    image: postgres:12
+    expose:
+      - "5428"
+    ports:
+      - "5428:5428"
+    command: -p 5428
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: swigato
+      PGDATA: /data/postgres
+    volumes:
+      - ./java_db4:/data/postgres
+
+volumes:
+  pgdata: {}
