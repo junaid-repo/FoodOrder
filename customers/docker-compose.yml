@@ -13,6 +13,8 @@ services:
       - DATABASE_PASSWORD=postgres
     depends_on:
       - java_db2
+    expose:
+      - "7072"
 
   java_db2:
     container_name: java_db2
